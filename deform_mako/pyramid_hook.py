@@ -14,10 +14,11 @@ def translator(term, domain='deform'):
         term = TranslationStringFactory(domain)(term)
     return get_localizer(get_current_request()).translate(term)
 
-def install():
+def install(mako_template_dir=None):
     """actually turn-on mako rendering for deform"""
     # find the templates
-    mako_template_dir = resource_filename('deform_mako', 'templates/')
+    if not mako_template_dir:
+        mako_template_dir = resource_filename('deform_mako', 'templates/')
 
     # this bit actually tells deform to use mako from now on
     deform.Form.set_default_renderer(
@@ -28,8 +29,9 @@ def install():
             )
         )
 
+# this is to run the deformdemo/app.py pyramid app, useful for testing etc.
 def run(global_config, **settings):
-    """hook for wsgi"""
+    """hook for wsgi to run deformdemo pyramid app"""
     from deformdemo.app import run
     install()
     return run(global_config, **settings)
