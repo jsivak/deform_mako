@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags, builder
+%>
 <ul class="deformSet">
     <input type="hidden" name="__start__" value="${field.name}:rename"/>
     % for (index, (value, title)) in enumerate(field.widget.values):

@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-  <input type="text"
+<%!
+from webhelpers.html import tags
+%>
+<input type="text"
          name="${field.name}"
          value="${cstruct}"
          % if field.widget.size:

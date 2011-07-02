@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags, builder
+%>
 <%
 rndr = field.renderer
 tmpl = field.widget.item_template
 %>
-<form \
-id="${field.formid}" \
-action="${field.action}" \
-method="${field.method}" \
-enctype="multipart/form-data" \
-accept-charset="utf-8" \
+<form id="${field.formid}" action="${field.action}" method="${field.method}" \
+enctype="multipart/form-data" accept-charset="utf-8" \
 % if field.css_class:
  class="${field.css_class}"\
 % endif

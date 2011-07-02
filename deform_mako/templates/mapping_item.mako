@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags, builder
+%>
 % if not field.widget.hidden:
 <li\
 % if field.error and field.widget.error_class:

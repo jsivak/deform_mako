@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-<textarea id="${field.oid}"
-          name="${field.name}">${cstruct}</textarea>
-<script language="javascript"
-	type="text/javascript">
+<%!
+from webhelpers.html import tags
+%>
+<textarea id="${field.oid}" name="${field.name}">${cstruct}</textarea>
+<script language="javascript" type="text/javascript">
   deform.addCallback(
       '${field.oid}',
       function(oid) {

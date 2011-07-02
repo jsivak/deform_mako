@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags, builder
+%>
 <%
 rndr = field.renderer
 tmpl = field.widget.item_template

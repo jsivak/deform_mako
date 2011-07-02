@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags, builder
+%>
 <select name="${field.name}"
         id="${field.oid}">
  % for value, description in field.widget.values:

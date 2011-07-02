@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags, builder
+%>
 <input type="hidden" name="__start__" value="${field.name}:mapping"/>
 <ul class="inline">
   <li>

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags
+%>
 <input type="text"\
  name="${field.name}"\
  value="${cstruct}"\

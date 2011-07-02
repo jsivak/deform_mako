@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import builder
+%>
 <input type="password" name="${field.name}" value="${cstruct}"
        % if field.widget.size:
        size="${field.widget.size}"

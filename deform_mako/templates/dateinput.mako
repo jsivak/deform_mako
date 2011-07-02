@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-  <input type="date"
+<%!
+from webhelpers.html import tags
+%>
+<input type="date"
          name="${field.name}"
          value="${cstruct}"
          % if field.widget.size:

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags
+%>
 <textarea
     % if field.widget.rows:
     rows="${field.widget.rows}"

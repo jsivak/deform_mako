@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+<%!
+from webhelpers.html import tags
+%>
 <input type="hidden" name="__start__" value="${field.name}:sequence"/>
   <ul class="deformSet">
     % for (index, (value, title)) in enumerate(field.widget.values):

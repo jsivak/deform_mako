@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
 %>
 <%
 tag = tags.text(field.name,
