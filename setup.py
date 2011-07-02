@@ -6,17 +6,17 @@ from setuptools import find_packages
 here = os.path.abspath(os.path.dirname(__file__))
 
 try:
-    README = open(os.path.join(here, 'README.txt')).read()
-    CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
+    README = open(os.path.join(here, 'README.rst')).read()
+    CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 except:
     README = ''
     CHANGES = ''
 
-requires = ['deform']
+requires = ['deform>=0.9.0']
 
 setupkw = dict(
     name='deform_mako',
-    version='0.0.0',
+    version='0.1',
     description='Mako templates for Deform widgets',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
@@ -24,10 +24,10 @@ setupkw = dict(
         "Programming Language :: Python",
         ],
     keywords='web forms form generation schema validation',
-    author="Somebody",
-    author_email="somebody@example.com",
-    url="http://example.com",
-    license="some license",
+    author="Matt Feifarek",
+    author_email="matt.feifarek@gmail.com",
+    url="https://github.com/mfeif/deform_mako",
+    license="BSD-derived (http://www.repoze.org/LICENSE.txt)",
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
