@@ -34,7 +34,7 @@ setupkw = dict(
     install_requires=requires,
     entry_points = """\
     [paste.app_factory]
-    demo = deformdemo.app:run
+    demo = deform_mako.pyramid_hook:run
     """,
     )
 
