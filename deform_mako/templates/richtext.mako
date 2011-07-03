@@ -2,7 +2,10 @@
 <%!
 from webhelpers.html import tags
 %>
-<textarea id="${field.oid}" name="${field.name}">${cstruct}</textarea>
+<%
+tag = tags.textarea(field.name, cstruct, id=field.oid)
+%>
+${tag}
 <script language="javascript" type="text/javascript">
   deform.addCallback(
       '${field.oid}',

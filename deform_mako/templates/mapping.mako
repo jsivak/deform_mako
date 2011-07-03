@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
 %>
 <%
 rndr = field.renderer
@@ -23,11 +23,11 @@ tmpl = field.widget.item_template
       <div>${_(field.description)}</div>
     </li>
     % endif
-    <input type="hidden" name="__start__" value="${field.name}:mapping"/>
+    ${tags.hidden("__start__", value=field.name+":mapping", id=None)}
     % for f in field.children:
     ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
     % endfor
-    <input type="hidden" name="__end__" value="${field.name}:mapping"/>
+    ${tags.hidden("__end__", value=field.name+":mapping", id=None)}
   </ul>
   <!-- /mapping -->
 </fieldset>

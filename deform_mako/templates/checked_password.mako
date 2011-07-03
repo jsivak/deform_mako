@@ -1,27 +1,30 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
 %>
-<input type="hidden" name="__start__" value="${field.name}:mapping"/>
+${tags.hidden("__start__", value=field.name+":mapping", id=None)}
 <ul>
   <li>
     <label for="${field.oid}">Password</label>
-    <input type="password" name="value" value="${cstruct}"
-         % if field.widget.size:
-         size="${field.widget.size}"
-         % endif
-         id="${field.oid}"/>
+<%
+tag = tags.password('value',
+                value=cstruct,
+                id=field.oid,
+                size=field.widget.size,
+                class_=field.widget.css_class)
+%>
+    ${tag}
   </li>
   <li>
     <label for="${field.oid}-confirm">Confirm Password</label>
-    <input type="password" name="confirm" value="${confirm}"
-         % if field.widget.size:
-         size="${field.widget.size}"
-         % endif
-         % if field.widget.css_class:
-         class="${field.widget.css_class}"
-         % endif
-        id="${field.oid}-confirm"/>
+<%
+tag = tags.password('confirm',
+                value=confirm,
+                id=field.oid+"-confirm",
+                size=field.widget.size,
+                class_=field.widget.css_class)
+%>
+    ${tag}
   </li>
 </ul>
-<input type="hidden" name="__end__" value="${field.name}:mapping"/>
+${tags.hidden("__end__", value=field.name+":mapping", id=None)}

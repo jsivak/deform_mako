@@ -2,21 +2,20 @@
 <%!
 from webhelpers.html import tags
 %>
-<input type="date"
-         name="${field.name}"
-         value="${cstruct}"
-         % if field.widget.size:
-         size="${field.widget.size}"
-         % endif
-         % if field.widget.css_class:
-         class="${field.widget.css_class}"
-         % endif
-         id="${field.oid}"/>
-  <script type="text/javascript">
-    deform.addCallback(
-      '${field.oid}',
-      function(oid) {
-          $('#' + oid).datepicker({dateFormat: 'yy-mm-dd'});
-      }
-    );
-  </script>
+<%
+tag = tags.text(field.name,
+                value=cstruct,
+                id=field.oid,
+                type='date',
+                size=field.widget.size,
+                class_=field.widget.css_class)
+%>
+${tag}
+<script type="text/javascript">
+  deform.addCallback(
+    '${field.oid}',
+    function(oid) {
+        $('#' + oid).datepicker({dateFormat: 'yy-mm-dd'});
+    }
+  );
+</script>

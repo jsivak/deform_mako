@@ -2,16 +2,14 @@
 <%!
 from webhelpers.html import tags
 %>
-<input type="text"\
- name="${field.name}"\
- value="${cstruct}"\
-% if field.widget.size:
- size="${field.widget.size}"\
-% endif
-% if field.widget.css_class:
- class="${field.widget.css_class}"\
-% endif
- id="${field.oid}"/>
+<%
+tag = tags.text(field.name,
+                value=cstruct,
+                id=field.oid,
+                size=field.widget.size,
+                class_=field.widget.css_class)
+%>
+${tag}
 <script type="text/javascript">
   deform.addCallback(
     '${field.oid}',

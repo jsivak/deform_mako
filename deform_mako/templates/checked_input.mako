@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
 %>
-<input type="hidden" name="__start__" value="${field.name}:mapping"/>
+${tags.hidden("__start__", value=field.name+":mapping", id=None)}
 <ul>
   <li>
     <label for="${field.oid}">${subject}</label>
-    <input type="text" name="value" value="${cstruct}"
-        % if field.widget.size:
-        size="${field.widget.size}"
-        % endif
-        % if field.widget.css_class:
-        class="${field.widget.css_class}"
-        % endif
-        id="${field.oid}"/>
+<%
+tag = tags.text('value',
+                value=cstruct,
+                id=field.oid,
+                size=field.widget.size,
+                class_=field.widget.css_class)
+%>
+    ${tag}
   </li>
 
   <li>
     <label for="${field.oid}-confirm">${confirm_subject}</label>
-    <input type="text" name="confirm" value="${confirm}"
-        % if field.widget.size:
-        size="${field.widget.size}"
-        % endif
-        % if field.widget.css_class:
-        class="${field.widget.css_class}"
-        % endif
-        id="${field.oid}-confirm"/>
+<%
+tag = tags.text('confirm',
+                value=confirm,
+                id=field.oid+"-confirm",
+                size=field.widget.size,
+                class_=field.widget.css_class)
+%>
+    ${tag}
   </li>
 </ul>
   % if field.widget.mask:
@@ -43,4 +43,4 @@ from webhelpers.html import tags, builder
   </script>
   % endif
 
-<input type="hidden" name="__end__" value="${field.name}:mapping"/>
+${tags.hidden("__end__", value=field.name+":mapping", id=None)}

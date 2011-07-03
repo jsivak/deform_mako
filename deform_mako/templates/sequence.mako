@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
+from webhelpers.html.builder import HTML
 %>
 <%
 rndr = field.renderer
@@ -10,27 +11,31 @@ min_len = field.widget.min_len or 0
 max_len = field.widget.max_len or 100000
 now_len = len(subfields)
 prototype = field.widget.prototype(field)
+
+start_tag = tags.hidden("__start__",
+                        id=None,
+                        value=field.name+":sequence",
+                        class_="deformProto",
+                        prototype=prototype)
+end_tag = tags.hidden("__end__",
+                      id=None,
+                      value=field.name+":sequence")
+span_insert_before = HTML.tag('span', '',
+                              class_="deformInsertBefore",
+                              min_len=min_len or None,
+                              max_len=max_len or None,
+                              now_len=now_len or None)
 %>
+
 
 <div class="deformSeq" id="${field.oid}">
 <!-- sequence -->
-<input type="hidden" name="__start__" value="${field.name}:sequence" class="deformProto" prototype="${prototype}" />
+${start_tag}
 <ul>
 % for c, f in subfields:
-${rndr(item_tmpl, field=f, cstruct=c, parent=field)}
+  ${rndr(item_tmpl, field=f, cstruct=c, parent=field)}
 % endfor
-
-<span class="deformInsertBefore"\
-% if min_len:
- min_len="${min_len}"\
-% endif
-% if max_len:
- max_len="${max_len}"\
-% endif
-% if now_len:
- now_len="${now_len}"\
-% endif
-></span>
+  ${span_insert_before}
 </ul>
 
 <a href="#" class="deformSeqAdd" id="${field.oid}-seqAdd" onclick="javascript: return deform.appendSequenceItem(this);">\
@@ -42,11 +47,10 @@ ${rndr(item_tmpl, field=f, cstruct=c, parent=field)}
      '${field.oid}',
      function(oid) {
        oid_node = $('#'+ oid);
-       deform.processSequenceButtons(oid_node, ${min_len},
-                                     ${max_len}, ${now_len});
+       deform.processSequenceButtons(oid_node, ${min_len}, ${max_len}, ${now_len});
      }
    )
 </script>
-<input type="hidden" name="__end__" value="${field.name}:sequence"/>
+${end_tag}
 <!-- /sequence -->
 </div>

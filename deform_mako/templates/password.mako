@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import builder
+from webhelpers.html import tags
 %>
-<input type="password" name="${field.name}" value="${cstruct}"
-       % if field.widget.size:
-       size="${field.widget.size}"
-       % endif
-       % if field.widget.css_class:
-       class="${field.widget.css_class}"
-       % endif
-       id="${field.oid}"/>
+<%
+tag = tags.password(field.name,
+                    value=cstruct,
+                    id=field.oid,
+                    size=field.widget.size,
+                    class_=field.widget.css_class)
+%>
+${tag}

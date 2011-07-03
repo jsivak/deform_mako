@@ -1,25 +1,23 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
 %>
 <ul class="deformSet">
-    <input type="hidden" name="__start__" value="${field.name}:rename"/>
+    ${tags.hidden("__start__", value=field.name+":rename", id=None)}
     % for (index, (value, title)) in enumerate(field.widget.values):
         <li class="deformSet-item">
-          <input
-            % if value == cstruct:
-            checked="True"
-            % endif
-            % if field.widget.css_class:
-            class="${field.widget.css_class}"
-            % endif
-            type="radio"
-            name="${field.oid}"
-            value="${value}"
-            id="${field.oid}-${index}"/>
+<%
+tag = tags.radio(field.oid,
+                 value=value,
+                 id="%s-%s" % (field.oid, index),
+                 class_=field.widget.css_class,
+                 checked=(value==cstruct)
+                 )
+%>
+          ${tag}
           <label for="${field.oid}-${index}">${title}</label>
         </li>
     % endfor
-    <input type="hidden" name="__end__"/>
+    ${tags.hidden("__end__", value=None, id=None)}
 </ul>
 

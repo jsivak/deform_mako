@@ -2,5 +2,11 @@
 <%!
 from webhelpers.html import tags
 %>
-<input type="hidden" name="${field.name}" value="${cstruct}" id="${field.oid}"/>
+<%
+tag = tags.hidden(field.name,
+                  value=cstruct,
+                  id=field.oid
+                  )
+%>
+${tag}
 

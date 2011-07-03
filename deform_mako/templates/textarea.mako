@@ -2,15 +2,11 @@
 <%!
 from webhelpers.html import tags
 %>
-<textarea
-    % if field.widget.rows:
-    rows="${field.widget.rows}"
-    % endif
-    % if field.widget.cols:
-    cols="${field.widget.cols}"
-    % endif
-    % if field.widget.css_class:
-    class="${field.widget.css_class}"
-    % endif
-    id="${field.oid}"
-    name="${field.name}">${cstruct}</textarea>
+<%
+tag = tags.textarea(field.name, cstruct,
+                    id=field.oid,
+                    rows=field.widget.rows,
+                    cols=field.widget.cols,
+                    class_=field.widget.css_class)
+%>
+${tag}

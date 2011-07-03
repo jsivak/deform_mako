@@ -1,33 +1,34 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
+from webhelpers.html.builder import HTML
 %>
 <%
 rndr = field.renderer
 tmpl = field.widget.item_template
+start_form = tags.form(field.action,
+                       method=field.method,
+                       multipart=True,
+                       id=field.formid,
+                       class_=field.css_class,
+                       **{'accept-charset':"utf-8"}
+                       )
 %>
-<form id="${field.formid}" action="${field.action}" method="${field.method}" \
-enctype="multipart/form-data" accept-charset="utf-8" \
-% if field.css_class:
- class="${field.css_class}"\
-% endif
->
+${start_form}
   <fieldset class="deformFormFieldset">
     % if field.title:
     <legend>${_(field.title)}</legend>
     % endif
 
-    <input type="hidden" name="_charset_" />
-    <input type="hidden" name="__formid__" value="${field.formid}"/>
+    ${tags.hidden("_charset_", id=None, value=None)}
+    ${tags.hidden("__formid__", id=None, value=field.formid)}
     <ul>
-
       % if field.error:
       <li class="errorLi">
         <h3 class="errorMsgLbl">${_("There was a problem with your submission")}</h3>
         <p class="errorMsg">${_("Errors have been highlighted below")}</p>
       </li>
       % endif
-
       % if field.title:
       <li class="section first">
         <h3>${_(field.title)}</h3>
@@ -36,30 +37,26 @@ enctype="multipart/form-data" accept-charset="utf-8" \
         % endif
       </li>
       % endif
-
       % for f in field.children:
       ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
       % endfor
-
       <li class="buttons">
-        % for button in field.buttons:
-          <button
-              id="${field.formid+button.name}"
-              name="${button.name}"
-              type="${button.type}"
-              class="btnText submit"
-              value="${_(button.value)}"
-              % if button.disabled:
-               disabled="disabled"
-              % endif
-              >
-            <span>${_(button.title)}</span>
-          </button>
-        % endfor
+% for button in field.buttons:
+<%
+span_tag = HTML.tag('span', _(button.title))
+button_tag = HTML.tag('button', span_tag,
+                      name=button.name,
+                      type=button.type,
+                      value=_(button.value),
+                      disabled=button.disabled or None,
+                      id=field.formid+button.name,
+                      class_="btnText submit"
+                      )
+%>\
+          ${button_tag}
+% endfor
       </li>
-
     </ul>
-
   </fieldset>
 
 % if field.use_ajax:
@@ -82,5 +79,4 @@ enctype="multipart/form-data" accept-charset="utf-8" \
    });
 </script>
 % endif
-
-</form>
+${tags.end_form()}

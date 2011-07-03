@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags, builder
+from webhelpers.html import tags
 %>
 % if not field.widget.hidden:
 <li\
@@ -18,9 +18,7 @@ ${_(field.title)}\
 % endif
 </label>
 % endif
-
   ${field.serialize(cstruct)}
-
   % if field.error and not field.widget.hidden:
   % for index, msg in enumerate(field.error.messages()):
 <%
@@ -30,7 +28,6 @@ pid = (index==0 and errstr) or ('%s-%s' % (errstr, index))
   <p id="${pid}" class="${field.widget.error_class}">${_(msg)}</p>
   % endfor
   % endif
-
   <!-- /mapping_item -->
 % if not field.widget.hidden:
 </li>
