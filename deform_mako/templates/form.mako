@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags
-from webhelpers.html.builder import HTML
+from webhelpers2.html import tags
+from webhelpers2.html.builder import HTML
 %>
 <%
 rndr = field.renderer
@@ -11,52 +11,63 @@ start_form = tags.form(field.action,
                        multipart=True,
                        id=field.formid,
                        class_=field.css_class,
-                       **{'accept-charset':"utf-8"}
+                       **{'accept-charset':"utf-8", 'i18n:domain="deform"'},
                        )
 %>
 ${start_form}
-  <fieldset class="deformFormFieldset">
+<fieldset class="deform-form-fieldset">
     % if field.title:
     <legend>${_(field.title)}</legend>
     % endif
 
     ${tags.hidden("_charset_", id=None, value=None)}
     ${tags.hidden("__formid__", id=None, value=field.formid)}
-    <ul>
-      % if field.error:
-      <li class="errorLi">
-        <h3 class="errorMsgLbl">${_("There was a problem with your submission")}</h3>
-        <p class="errorMsg">${_("Errors have been highlighted below")}</p>
-      </li>
-      % endif
-      % if field.title:
-      <li class="section first">
-        <h3>${_(field.title)}</h3>
-        % if field.description:
-        <div>${_(field.description)}</div>
+
+        % if field.error:
+        <div class="alert alert-danger">
+            <div class="error-msg-lbl" i18n:translate="">${_("There was a problem with your submission")}</div>
+            <div class="error-msg-detail" i18n:translate="">${_("Errors have been highlighted below")}</div>
+            <p class="error-msg" i18n:translate="">${field.errormsg}</p>
+        </div>
         % endif
-      </li>
-      % endif
-      % for f in field.children:
-      ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
-      % endfor
-      <li class="buttons">
+
+        % if field.description:
+            <p class="section first">${_(field.description)}</p>
+        % endif
+
+        % for f in field.children:
+            <div>
+            ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
+            </div>
+        % endfor
+
+        <div class="form-group deform-form-buttons">
 % for button in field.buttons:
 <%
-span_tag = HTML.tag('span', _(button.title))
+if button.start:
+    button_disposition = 'btn-primary'
+else:
+    button_disposition = 'btn-default'
+if button.css_class:
+    button_css = 'btn {0}'.format(button.css_class)
+else:
+    button_css = 'btn {0}'.format(button_disposition)
 button_tag = HTML.tag('button', span_tag,
                       name=button.name,
                       type=button.type,
                       value=_(button.value),
                       disabled=button.disabled or None,
                       id=field.formid+button.name,
-                      class_="btnText submit"
+                      class_=button_css,
+                      _closed=False,
                       )
 %>\
           ${button_tag}
+          HTML.tag('i', class=button.icon)
+          ${button_title}
+          % HTML.tag('/button', _closed=False)
 % endfor
-      </li>
-    </ul>
+        </div>
   </fieldset>
 
 % if field.use_ajax:
@@ -64,19 +75,30 @@ button_tag = HTML.tag('button', span_tag,
   deform.addCallback(
      '${field.formid}',
      function(oid) {
-         var options = {
-           target: '#' + oid,
-           replaceTarget: true,
-         };
-         var extra_options = ${field.ajax_options};
-         var name;
-         if (extra_options) {
-           for (name in extra_options) {
-             options[name] = extra_options[name];
-           };
-         };
-         $('#' + oid).ajaxForm(options);
-   });
+       var target = '#' + oid;
+       var options = {
+         target: target,
+         replaceTarget: true,
+         success: function() {
+           deform.processCallbacks();
+           deform.focusFirstInput(target);
+         },
+         beforeSerialize: function() {
+           // See http://bit.ly/1agBs9Z (hack to fix tinymce-related ajax bug)
+           if ('tinymce' in window) {
+             $(tinymce.get()).each(
+               function(i, el) {
+                 var content = el.getContent();
+                 var editor_input = document.getElementById(el.id);
+                 editor_input.value = content;
+             });
+           }
+         }
+       };
+       var extra_options = ${ajax_options} || {};
+       $('#' + oid).ajaxForm($.extend(options, extra_options));
+     }
+   );
 </script>
 % endif
 ${tags.end_form()}
