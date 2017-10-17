@@ -11,13 +11,13 @@ start_form = tags.form(field.action,
                        multipart=True,
                        id=field.formid,
                        class_=field.css_class,
-                       **{'accept-charset':"utf-8", 'i18n:domain="deform"'},
+                       **{'accept-charset':"utf-8", 'i18n:domain': '"deform"'},
                        )
 %>
 ${start_form}
 <fieldset class="deform-form-fieldset">
     % if field.title:
-    <legend>${_(field.title)}</legend>
+    <legend>${field.title}</legend>
     % endif
 
     ${tags.hidden("_charset_", id=None, value=None)}
@@ -25,26 +25,27 @@ ${start_form}
 
         % if field.error:
         <div class="alert alert-danger">
-            <div class="error-msg-lbl" i18n:translate="">${_("There was a problem with your submission")}</div>
-            <div class="error-msg-detail" i18n:translate="">${_("Errors have been highlighted below")}</div>
+            <div class="error-msg-lbl" i18n:translate="">There was a problem with your submission</div>
+            <div class="error-msg-detail" i18n:translate="">Errors have been highlighted below"</div>
             <p class="error-msg" i18n:translate="">${field.errormsg}</p>
         </div>
         % endif
 
         % if field.description:
-            <p class="section first">${_(field.description)}</p>
+            <p class="section first">${field.description}</p>
         % endif
 
         % for f in field.children:
             <div>
-            ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
+                ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
             </div>
         % endfor
 
         <div class="form-group deform-form-buttons">
+
 % for button in field.buttons:
 <%
-if button.start:
+if getattr(button, 'start', None):
     button_disposition = 'btn-primary'
 else:
     button_disposition = 'btn-default'
@@ -52,10 +53,10 @@ if button.css_class:
     button_css = 'btn {0}'.format(button.css_class)
 else:
     button_css = 'btn {0}'.format(button_disposition)
-button_tag = HTML.tag('button', span_tag,
+button_tag = HTML.tag('button',
                       name=button.name,
                       type=button.type,
-                      value=_(button.value),
+                      value=button.value,
                       disabled=button.disabled or None,
                       id=field.formid+button.name,
                       class_=button_css,
@@ -63,9 +64,9 @@ button_tag = HTML.tag('button', span_tag,
                       )
 %>\
           ${button_tag}
-          HTML.tag('i', class=button.icon)
-          ${button_title}
-          % HTML.tag('/button', _closed=False)
+          ${ HTML.tag('i', class_=getattr(button, 'icon', None)) }
+          ${button.title}
+          ${ HTML.tag('/button', _closed=False) }
 % endfor
         </div>
   </fieldset>
@@ -95,7 +96,7 @@ button_tag = HTML.tag('button', span_tag,
            }
          }
        };
-       var extra_options = ${ajax_options} || {};
+       var extra_options = ${field.ajax_options} || {};
        $('#' + oid).ajaxForm($.extend(options, extra_options));
      }
    );

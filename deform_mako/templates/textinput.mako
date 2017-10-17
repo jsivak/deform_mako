@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags
+from webhelpers2.html import tags
 %>
 <%
 tag = tags.text(field.name,
                 value=cstruct,
                 id=field.oid,
-                type='text',  # override for html5 inputs
-                size=field.widget.size,
-                class_=field.widget.css_class)
+                type_='text',  # override for html5 inputs
+                class_="form-control {0}".format(field.widget.css_class),
+                style=field.widget.style,
+                )
 %>
 ${tag}
 % if field.widget.mask:
