@@ -11,7 +11,7 @@ start_form = tags.form(field.action,
                        multipart=True,
                        id=field.formid,
                        class_=field.css_class,
-                       **{'accept-charset':"utf-8", 'i18n:domain': '"deform"'},
+                       **{'accept-charset':"utf-8"},
                        )
 %>
 ${start_form}
@@ -25,9 +25,9 @@ ${start_form}
 
         % if field.error:
         <div class="alert alert-danger">
-            <div class="error-msg-lbl" i18n:translate="">There was a problem with your submission</div>
-            <div class="error-msg-detail" i18n:translate="">Errors have been highlighted below"</div>
-            <p class="error-msg" i18n:translate="">${field.errormsg}</p>
+            <div class="error-msg-lbl">There was a problem with your submission</div>
+            <div class="error-msg-detail">Errors have been highlighted below"</div>
+            <p class="error-msg">${field.errormsg}</p>
         </div>
         % endif
 
