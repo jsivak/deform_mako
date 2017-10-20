@@ -2,21 +2,42 @@
 <%!
 from webhelpers2.html import tags
 %>
-${tags.hidden("__start__", value=field.name+":sequence", id=None)}
-  <ul class="deformSet">
+<%
+css_class = field.widget.css_class
+style = field.widget.style
+oid = field.oid
+inline = getattr(field.widget, 'inline', False)
+%>
+
+% if inline:
+<div class="checkbox">
+% endif
+
+${field.start_sequence()}
     % for (index, (value, title)) in enumerate(field.widget.values):
-    <li class="deformSet-item">
+    % if not inline:
+        <div class="checkbox">
+    % endif
+    <label for="${oid}-${index}" class="${inline and 'checkbox-inline'}">
 <%
 tag = tags.checkbox("checkbox",
                 value=value,
                 id="%s-%s" % (field.oid, index),
                 checked=(value in cstruct),
-                class_=field.widget.css_class)
+                class_=field.widget.css_class,
+                style=style,
+                type='checkbox',
+                )
 %>
-      ${tag}
-      <label for="${field.oid}-${index}">${title}</label>
-    </li>
+        ${tag}
+        ${title}
+        </label>
+    % if not inline:
+        </div>
+    % endif
     % endfor
-  </ul>
-${tags.hidden("__end__", value=field.name+":sequence", id=None)}
 
+${field.end_sequence()}
+% if inline:
+</div>
+% endif

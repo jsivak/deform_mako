@@ -4,8 +4,6 @@ from webhelpers2.html import tags
 from webhelpers2.html.builder import HTML
 %>
 <%
-rndr = field.renderer
-tmpl = field.widget.item_template
 start_form = tags.form(field.action,
                        method=field.method,
                        multipart=True,
@@ -35,10 +33,8 @@ ${start_form}
             <p class="section first">${field.description}</p>
         % endif
 
-        % for f in field.children:
-            <div>
-                ${rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}
-            </div>
+        % for child in field.children:
+            ${child.render()}
         % endfor
 
         <div class="form-group deform-form-buttons">
@@ -46,9 +42,9 @@ ${start_form}
 % for button in field.buttons:
 <%
 if getattr(button, 'start', None):
-    button_disposition = 'btn-primary'
-else:
     button_disposition = 'btn-default'
+else:
+    button_disposition = 'btn-primary'
 if button.css_class:
     button_css = 'btn {0}'.format(button.css_class)
 else:
@@ -64,7 +60,9 @@ button_tag = HTML.tag('button',
                       )
 %>\
           ${button_tag}
-          ${ HTML.tag('i', class_=getattr(button, 'icon', None)) }
+          % if getattr(button, 'icon', None):
+            ${ HTML.tag('i', class_=getattr(button, 'icon', None)) }
+            % endif
           ${button.title}
           ${ HTML.tag('/button', _closed=False) }
 % endfor
