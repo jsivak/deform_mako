@@ -14,11 +14,11 @@ tag = tags.text(field.name,
 ${tag}
 % if field.widget.mask:
 <script type="text/javascript">
-  deform.addCallback(
-     '${field.oid}',
-     function (oid) {
+deform.addCallback(
+    '${field.oid}',
+    function (oid) {
         $("#" + oid).mask("${field.widget.mask}",
-                          {placeholder:"${field.widget.mask_placeholder}"});
-     });
+                        {placeholder:"${field.widget.mask_placeholder}"});
+    });
 </script>
 % endif

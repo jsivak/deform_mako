@@ -18,10 +18,8 @@ from webhelpers2.html.builder import HTML
       % endif
       ${field.start_mapping()}
       % for child in field.children:
-        <div>
         ${child.render_template(field.widget.item_template)}
-        </div>
       % endfor
       ${field.end_mapping()}
-    </div>
-</div>
+  </div> <!-- panel-body -->
+</div> <!-- panel-heading -->

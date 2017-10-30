@@ -14,7 +14,7 @@ from webhelpers2.html.builder import HTML
 
     div_class="form-group {0} {1} {2}".format((field.error and 'has-error' or ''), (field.widget.item_css_class or ''), field.default_item_css_class())
 %>
-% if structural:
+% if not structural:
 <div class="${div_class}" title="${field.description}" id="item-${field.oid}">
 % endif
 
@@ -30,9 +30,7 @@ from webhelpers2.html.builder import HTML
         ${ getattr(field.widget, 'input_prepend', '') | n}
     </span>
 % endif
-    <span>
-        ${field.serialize(cstruct).strip() | n}
-    </span>
+    ${field.serialize(cstruct).strip() | n}
 % if getattr(field.widget, 'input_prepend', None):
     <span class="input-group-addon">
         ${ getattr(field.widget, 'input_append', '') | n}
@@ -56,6 +54,6 @@ from webhelpers2.html.builder import HTML
     <p class="help-block">${field.description}</p>
 % endif
 
-% if structural:
+% if not structural:
 </div>
 % endif
