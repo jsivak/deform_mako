@@ -10,6 +10,7 @@ max_len = field.widget.max_len or 100000
 my_subfields = [x[1] for x in subfields]
 now_len = len(subfields)
 prototype = field.widget.prototype(field)
+orderable = field.widget.orderable and 1 or 0
 %>
 
 <div class="deform-seq" id="${field.oid}">
@@ -45,7 +46,7 @@ prototype = field.widget.prototype(field)
                 min_len="${min_len}"
                 max_len="${max_len}"
                 now_len="${now_len}"
-                orderable="${field.widget.orderable}">
+                orderable="${orderable}">
             </span>
         </div> <!-- deform-seq-container -->
     </div> <!-- panel-body -->
@@ -65,7 +66,7 @@ prototype = field.widget.prototype(field)
             ${min_len},
             ${max_len},
             ${now_len},
-            ${field.widget.orderable});
+            ${orderable});
            }
          )
         % if field.widget.orderable:
