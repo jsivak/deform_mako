@@ -27,7 +27,7 @@ tag = tags.radio(field.oid,
             ${title}
         </label>
         % if not inline:
-        <div class='radio'>
+        </div>
         % endif
     % endfor
     ${field.end_rename()}
