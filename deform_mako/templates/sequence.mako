@@ -1,56 +1,103 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags
-from webhelpers.html.builder import HTML
+from webhelpers2.html import tags
+from webhelpers2.html.builder import HTML
+from mako.runtime import UNDEFINED
 %>
 <%
-rndr = field.renderer
-tmpl = field.widget.item_template
-item_tmpl = field.widget.item_template
 min_len = field.widget.min_len or 0
 max_len = field.widget.max_len or 100000
+my_subfields = [x[1] for x in subfields]
 now_len = len(subfields)
 prototype = field.widget.prototype(field)
-
-start_tag = tags.hidden("__start__",
-                        id=None,
-                        value=field.name+":sequence",
-                        class_="deformProto",
-                        prototype=prototype)
-end_tag = tags.hidden("__end__",
-                      id=None,
-                      value=field.name+":sequence")
-span_insert_before = HTML.tag('span', '',
-                              class_="deformInsertBefore",
-                              min_len=min_len or None,
-                              max_len=max_len or None,
-                              now_len=now_len or None)
 %>
 
+<div class="deform-seq" id="${field.oid}">
+<style>
+    body.dragging, body.dragging * {
+      cursor: move !important;
+    }
 
-<div class="deformSeq" id="${field.oid}">
+    .dragged {
+      position: absolute;
+      opacity: 0.5;
+      z-index: 2000;
+    }
+</style>
+
 <!-- sequence -->
-${start_tag}
-<ul>
-% for c, f in subfields:
-  ${rndr(item_tmpl, field=f, cstruct=c, parent=field)}
-% endfor
-  ${span_insert_before}
-</ul>
+<input type="hidden" name="__start__"
+    value="${field.name}:sequence"
+    class="deform-proto"
+    prototype="${field.widget.prototype(field)}"
+/>
 
-<a href="#" class="deformSeqAdd" id="${field.oid}-seqAdd" onclick="javascript: return deform.appendSequenceItem(this);">\
-<small id="${field.oid}-addtext">${_(add_subitem_text)}</small>\
-</a>
+  <div class="panel panel-default">
+    <div class="panel-heading">${field.title}</div>
+    <div class="panel-body">
+        <div class="deform-seq-container" id="${field.oid}-orderable">
+            % for subfield in my_subfields:
+                <div>
+                    ${subfield.render_template(subfield.widget.item_template, parent=field)}
+                </div>
+            % endfor
+            <span class="deform-insert-before"
+                min_len="${min_len}"
+                max_len="${max_len}"
+                now_len="${now_len}"
+                orderable="${field.widget.orderable}">
+            </span>
+        </div> <!-- deform-seq-container -->
+    </div> <!-- panel-body -->
+    <div class="panel-footer">
+      <a href="#"
+         class="btn deform-seq-add"
+         id="${field.oid}-seqAdd"
+         onclick="javascript: return deform.appendSequenceItem(this);">
+        <small id="${field.oid}-addtext">${add_subitem_text}</small>
+      </a>
+      <script type="text/javascript">
+       deform.addCallback(
+         '${field.oid}',
+         function(oid) {
+           oid_node = $('#'+ oid);
+           deform.processSequenceButtons(oid_node,
+            ${min_len},
+            ${max_len},
+            ${now_len},
+            ${field.widget.orderable});
+           }
+         )
+        % if field.widget.orderable:
+            $( "#${field.oid}-orderable" ).sortable({
+            handle: ".deform-order-button, .panel-heading",
+            containerSelector: "#${field.oid}-orderable",
+            itemSelector: ".deform-seq-item",
+            placeholder: '<span class="glyphicon glyphicon-arrow-right placeholder"></span>',
+            onDragStart: function ($item, container, _super) {
+                var offset = $item.offset(),
+                pointer = container.rootGroup.pointer
 
-<script type="text/javascript">
-   deform.addCallback(
-     '${field.oid}',
-     function(oid) {
-       oid_node = $('#'+ oid);
-       deform.processSequenceButtons(oid_node, ${min_len}, ${max_len}, ${now_len});
-     }
-   )
-</script>
-${end_tag}
-<!-- /sequence -->
-</div>
+                adjustment = {
+                left: pointer.left - offset.left,
+                top: pointer.top - offset.top
+                }
+
+                _super($item, container)
+            },
+            onDrag: function ($item, position) {
+                $item.css({
+                    left: position.left - adjustment.left,
+                    top: position.top - adjustment.top
+                })
+                }
+            });
+        % endif
+      </script>
+
+      <input type="hidden" name="__end__" value="${field.name}:sequence"/>
+      <!-- /sequence -->
+    </div>
+
+  </div>
+</div> 
