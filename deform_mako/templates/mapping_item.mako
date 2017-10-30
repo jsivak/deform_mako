@@ -19,7 +19,7 @@ from webhelpers2.html.builder import HTML
 % endif
 
 % if not structural:
-    ${HTML.tag('label', field.title, for_=field.oid, class_="col-xs-6 control-label {0}".format(field.required and 'required' or ''), id="req-{0}".format(field.oid)) }
+    ${HTML.tag('label', field.title, for_=field.oid, class_="control-label {0} {1}".format((field.required and 'required' or ''), getattr(field.widget, 'structural_css', '')), id="req-{0}".format(field.oid)) }
 % endif
 
 % if getattr(field.widget, 'input_prepend', None) or getattr(field.widget, 'input_append', None):
