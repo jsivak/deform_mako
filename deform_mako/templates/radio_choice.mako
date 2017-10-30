@@ -2,15 +2,18 @@
 <%!
 from webhelpers2.html import tags
 %>
-% if field.widget.inline:
+<%
+    inline = getattr(field.widget, 'inline', False)
+%>
+% if inline:
 <div>
 % endif
 ${field.start_rename()}
     % for (index, (value, title)) in enumerate(field.widget.values):
-        % if not field.widget.inline:
+        % if not inline:
         <div class='radio'>
         % endif
-        <label for="${field.oid}-${index}" class="${field.widget.inline and 'radio-inline'}">
+        <label for="${field.oid}-${index}" class="${inline and 'radio-inline'}">
 <%
 tag = tags.radio(field.oid,
                  value=value,
@@ -23,12 +26,12 @@ tag = tags.radio(field.oid,
             ${tag}
             ${title}
         </label>
-        % if not field.widget.inline:
+        % if not inline:
         <div class='radio'>
         % endif
     % endfor
     ${field.end_rename()}
 
-% if field.widget.inline:
+% if inline:
 </div>
 % endif
