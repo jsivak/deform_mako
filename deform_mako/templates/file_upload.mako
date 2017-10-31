@@ -1,25 +1,24 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags
+from webhelpers2.html import tags
 %>
 <%
 tag = tags.file("upload",
                 id=field.oid,
-                type='text',  # override for html5 inputs
-                size=field.widget.size,
-                class_=field.widget.css_class)
+                style=field.widget.style,
+                accept=field.widget.accept,
+                class_=field.widget.css_class,
+                data_filename=cstruct.get('filename'),
+                )
 %>
-<div class="deformFileupload">
-  ${tags.hidden("__start__", value=field.name+":mapping", id=None)}
-  % if cstruct.get('uid'):
-  <div class="deformReplaces">
-    ${tags.hidden("uid", value=cstruct['uid'], id=field.oid+"-uid")}
-    <span id="${field.oid}-filename">
-    ${cstruct.get('filename')}
-    </span>
-  </div>
-  % endif
-  ${tag}
-  ${tags.hidden("__end__", value=field.name+":mapping", id=None)}
-
-</div>
+${field.start_mapping()}
+${tag}
+% if cstruct.get('uid'):
+  ${tags.hidden("uid", value=cstruct['uid'])}
+% endif
+<script type="text/javascript">
+  deform.addCallback('${field.oid}', function (oid) {
+  $('#' + oid).upload();
+});
+</script>
+${field.end_mapping()}
