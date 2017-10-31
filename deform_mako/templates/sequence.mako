@@ -39,7 +39,9 @@ orderable = field.widget.orderable and 1 or 0
         <div class="deform-seq-container" id="${field.oid}-orderable">
             % for subfield in my_subfields:
                 <div>
-                    ${subfield.render_template(subfield.widget.item_template, parent=field)}
+                    ## :TODO: changed for mail_details.py; not sure if it breaks other stuff
+                    ##${subfield.render_template(subfield.widget.item_template, parent=field)}
+                    ${subfield.render_template(field.widget.item_template, parent=field)}
                 </div>
             % endfor
             <span class="deform-insert-before"
