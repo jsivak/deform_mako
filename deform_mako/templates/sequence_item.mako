@@ -4,7 +4,7 @@ from webhelpers2.html import tags
 %>
 % if not field.widget.hidden:
 <div title="${field.description}"
-    class="form-group row deform-seq-item ${field.error and field.widget.error_class or ''} ${field.widget.item_css_class or ''} ${field.default_item_css_class()}">
+    class="form-group row deform-seq-item ${field.error and 'has-error' or ''} ${field.widget.item_css_class or ''} ${field.default_item_css_class()}">
 % endif
 
     <div class="col-xs-11">
