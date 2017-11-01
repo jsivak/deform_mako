@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 <%!
-from webhelpers.html import tags
+from webhelpers2.html import tags
 %>
 <%
 tag = tags.textarea(field.name, cstruct,
