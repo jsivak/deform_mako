@@ -33,7 +33,7 @@ orderable = field.widget.orderable and 1 or 0
     prototype="${field.widget.prototype(field)}"
 />
 
-  <div class="panel panel-default">
+<div class="panel panel-info">
     <div class="panel-heading">${field.title}</div>
     <div class="panel-body">
         <div class="deform-seq-container" id="${field.oid}-orderable">
