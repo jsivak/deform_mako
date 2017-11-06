@@ -34,7 +34,7 @@ orderable = field.widget.orderable and 1 or 0
 />
 
 <div class="panel panel-info">
-    <div class="panel-heading">${field.title}</div>
+    <div class="panel-heading"><strong>${field.title}</strong></div>
     <div class="panel-body">
         <div class="deform-seq-container" id="${field.oid}-orderable">
             % for subfield in my_subfields:
