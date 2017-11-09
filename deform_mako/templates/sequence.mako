@@ -57,7 +57,7 @@ orderable = field.widget.orderable and 1 or 0
          class="btn deform-seq-add"
          id="${field.oid}-seqAdd"
          onclick="javascript: return deform.appendSequenceItem(this);">
-        <small id="${field.oid}-addtext">${add_subitem_text}</small>
+         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span><small id="${field.oid}-addtext">${add_subitem_text}</small>
       </a>
       <script type="text/javascript">
        deform.addCallback(
