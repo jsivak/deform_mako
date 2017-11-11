@@ -4,7 +4,9 @@ from webhelpers2.html import tags
 from webhelpers2.html.builder import HTML
 %>
 <div title="${field.description}" class="panel panel-info">
+    % if field.title:
     <div class="panel-heading"><strong>${field.title}</strong></div>
+    % endif
     <div class="panel-body">
       % if field.errormsg:
           <div class="clearfix alert alert-danger">

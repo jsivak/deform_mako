@@ -36,7 +36,9 @@ orderable = field.widget.orderable and 1 or 0
     prototype="${field.widget.prototype(field)}"
 />
 <div class="panel panel-info">
+    % if field.title:
     <div class="panel-heading"><strong>${field.title}</strong></div>
+    % endif
     <div class="panel-body">
         <div class="deform-seq-container" id="${field.oid}-orderable">
             % for subfield in my_subfields:
