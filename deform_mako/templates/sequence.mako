@@ -13,6 +13,9 @@ prototype = field.widget.prototype(field)
 orderable = field.widget.orderable and 1 or 0
 %>
 
+% if field.widget.category != 'structural':
+<div class="panel-body">
+%endif
 <div class="deform-seq" id="${field.oid}">
 <style>
     body.dragging, body.dragging * {
@@ -32,17 +35,14 @@ orderable = field.widget.orderable and 1 or 0
     class="deform-proto"
     prototype="${field.widget.prototype(field)}"
 />
-
 <div class="panel panel-info">
     <div class="panel-heading"><strong>${field.title}</strong></div>
     <div class="panel-body">
         <div class="deform-seq-container" id="${field.oid}-orderable">
             % for subfield in my_subfields:
-                <div>
                     ## :TODO: changed for mail_details.py; not sure if it breaks other stuff
                     ##${subfield.render_template(subfield.widget.item_template, parent=field)}
                     ${subfield.render_template(field.widget.item_template, parent=field)}
-                </div>
             % endfor
             <span class="deform-insert-before"
                 min_len="${min_len}"
@@ -100,7 +100,10 @@ orderable = field.widget.orderable and 1 or 0
 
       <input type="hidden" name="__end__" value="${field.name}:sequence"/>
       <!-- /sequence -->
-    </div>
+    </div> <!-- panel-footer -->
 
-  </div>
-</div> 
+  </div> <!-- panel -->
+</div> <!-- deform-seq -->
+% if field.widget.category != 'structural':
+</div>
+%endif
