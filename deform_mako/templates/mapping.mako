@@ -21,5 +21,5 @@ from webhelpers2.html.builder import HTML
         ${child.render_template(field.widget.item_template)}
       % endfor
       ${field.end_mapping()}
-  </div> <!-- panel-body -->
-</div> <!-- panel-heading -->
+  </div> <!-- mapping panel-body -->
+</div> <!-- mapping panel -->
