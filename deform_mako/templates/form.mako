@@ -34,7 +34,7 @@ ${start_form}
         % endif
 
         % for child in field.children:
-            ${child.render()}
+          ${child.render_template(field.widget.item_template)}
         % endfor
 
         <div class="form-group deform-form-buttons">
