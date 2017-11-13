@@ -50,7 +50,7 @@ from webhelpers2.html.builder import HTML
     % endfor
 % endif
 
-% if field.description and not field.widget.hidden:
+% if field.description and not field.widget.hidden and not structural:
     <p class="help-block">${field.description}</p>
 % endif
 
