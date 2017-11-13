@@ -10,8 +10,9 @@ tag = tags.text(field.name,
                 class_="form-control {0}".format(field.widget.css_class),
                 style=field.widget.style,
                 )
+widget_title = getattr(field.widget, 'title', '')
 %>
-${tag}
+${widget_title} ${tag}
 % if field.widget.mask:
 <script type="text/javascript">
 deform.addCallback(
