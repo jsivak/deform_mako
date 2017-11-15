@@ -53,6 +53,10 @@ except IndexError:
         </label>
     </td>
 </tr>
+<%
+  if index == center_point - 1:
+    break
+%>
 % endfor
 </table>
     ${field.end_rename()}
