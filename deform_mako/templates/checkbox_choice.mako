@@ -23,7 +23,7 @@ ${field.start_sequence()}
 tag = tags.checkbox("checkbox",
                 value=value,
                 id="%s-%s" % (field.oid, index),
-                checked=(value in cstruct),
+                checked=(value in cstruct and (value is not False or value is not None)),
                 class_=field.widget.css_class,
                 style=style,
                 type='checkbox',
